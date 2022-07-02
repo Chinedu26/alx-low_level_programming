@@ -1,21 +1,23 @@
 #include <stdio.h>
+#include <time.h>
+#include <stdio.h>
 /**
  * main - main block
  * Return: 0
  */
 int main(void)
 {
-	int n;
+	int ch;
 
-	for (n = 48; n < 58; n++)
+	for (ch = 48; ch <= 57; ch++)
 	{
-	putchar(n);
-	if (n != 57)
+	putchar(ch);
+	if ch != 57)
 	{
-		putchar(',');
-		putchar('');
+	putchar(44);
+	putchar(32);
 	}
 	}
-	putchar('\n');
+	putchar(10);
 	return (0);
 }
