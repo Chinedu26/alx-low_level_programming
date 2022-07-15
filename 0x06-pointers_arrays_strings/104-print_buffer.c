@@ -1,6 +1,33 @@
 #include "main.h"
 #include <stdio.h>
 /**
+ * print_line - prints a s bytes of a buffer
+ * @c: buffer to print
+ * @s: bytes tof buffer to print
+ * @l: line of buffer to print
+ */
+void print_line(char *c, int s, int l)
+{
+	int j, k;
+
+	for (j = 0; j <= 9; j++)
+	{
+		if (j <= s)
+			printf("%02x", c[l * 10 + j]);
+		else
+			printf(" ");
+		if (j % 2)
+			putchar(' ');
+	}
+	for (k = 0; k <= s; k++)
+	{
+		if (c[l * 10 + k] > 31 && c[l * 10 + k] < 127)
+			putchar (c[l * 10 + k]);
+		else
+			putchar('.');
+	}
+}
+/**
  * print_buffer - print a buffer
  * @b: the buffer to print
  * @size: the number of bytes to print
@@ -8,30 +35,21 @@
  */
 void print_buffer(char *b, int size)
 {
-	int b_pos;
-	int l_pos;
+	int i;
 
-	for (b_pos = 0; b_pos < size; b_pos += 10)
+	for (i = 0; i <= (size - 1) / 10 && size; i++)
 	{
-		printf("%08x: ", b_pos);
-		for (l_pos = 0; l_pos < 10; ++l_pos)
+		printf("%08x: ", i * 10);
+		if (i < size / 10)
 		{
-			if (b_pos  + l_pos < size)
-				printf("%02x", b[b_pos + l_pos]);
-			else
-				printf(" ");
-			if (l_pos % 2)
-				putchar(' ');
+			print_line(b, 9, i);
 		}
-		for (l_pos = 0; l_pos < 10 && b_pos + l_pos < size; ++l_pos)
+		else
 		{
-			if (b[b_pos + l_pos] < 32 || b[b_pos + l_pos] > 126)
-				putchar('.');
-			else
-				putchar(b[b_pos + l_pos]);
+			print_line(b, size % 10 - 1, i);
 		}
-		if (b_pos + l_pos < size)
-			putchar('\n');
+		putchar('\n');
 	}
-	putchar('\n');
+	if (size == 0)
+		putchar('\n');
 }
