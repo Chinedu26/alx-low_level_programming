@@ -1,27 +1,47 @@
 #include "main.h"
+char *add_strings(char *n1, char *n2, char *r, int r_index);
+char *infinite_add(char *n1, char *n2, char *r, int size_r);
 /**
- * carry_from_prev - carry overflow from previous index to current index
- * @b: the buffer to operate on
- * @i: the index to carry to
- * Return: void
+ * add_strings - Adds the numbers stored in two strings
+ * @n1: the string containing the  first number
+ * @n2: the string containing the second number
+ * @r: the buffer to store the result
+ * @r_index: the current index of the buffer
+ * Return: If r can store the sum - a pointer to the result.
+ * if r cannot store the sum - 0.
  */
-void carry_from_prev(char *b, int i)
+char *add_strings(char *n1, char *n2, char *r, int r_index)
 {
-	b[i] = b[i - 1] / 10;
-	b[i - 1] %= 10;
-}
-/**
- * find_str_end - find the end of a string
- * @s: the string to search
- * Return: a pointer to the end of the string
- */
-char *find_str_end(char *s)
-{
-	char *s_end;
+	int num, tens = 0;
 
-	for (s_end = s; *s_end; ++s_end)
-		;
-	return (s_end_);
+
+	for (; *n1 && *n2; n1--, n2--, r_index--)
+	{
+		num = (*n1 - '0') + (*n2 - '0');
+		num += tens;
+		*(r + r_index) = (num % 10) + '0';
+		tens = num / 10;
+	}
+	for (; *n1; n1--, r_index--)
+	{
+		num = (*n1 - '0') + tens;
+		*(r + r_index) = (num % 10) + '0';
+		tens = num / 10;
+	}
+	for (; *n2; n2--, r_index--)
+	{
+		num = (*n2 - '0') + tens;
+		*(r + r_index) = (num % 10) + '0';
+		tens = num / 10;
+	}
+	if (tens && r_index >= 0)
+	{
+		*(r + r_index) = (tens % 10) + '0';
+		return (r + r_index);
+	}
+	else if (tens && r_index < 0)
+		return (0);
+	return (r + r_index + 1);
 }
 /**
  * infinite_add - adds two numbers
@@ -34,41 +54,16 @@ char *find_str_end(char *s)
  */
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-char *n1_end, *n2_end;
-int i, j;
+int index, n1_len = 0, n2_len = 0;
 
-for ( ; n1[1] && *n1 == '0'; ++n1)
-	;
-for ( ; n2[1] && *n2 == '0'; ++n2)
-	;
-n1_end = find_str_end(n1);
-n2_end = find_str_end(n2);
-for (i = 0; n1 < n1_end || n2 < n2_end; ++i)
-{
-	if (i + 1 >= size_r)
-		return (0);
-	if (i && r[i - 1] > 9)
-		carry_from_prev(r, i);
-	else
-		r[i] = 0;
-	if (n1 < n1_end)
-		r[i] += *(--n1_end)-'0';
-	if (n2 < n2_end)
-		r[i] += *(--n2_end)-'0';
+for (index = 0; *(n1 + index); index++)
+	n1_len++;
+for (index = 0; *(n2 + index); index++)
+	n2_len++;
+if (size_r <= n1_len + 1 || size_r <= n2_len + 1)
+	return (0);
+n1 += n1_len - 1;
+n2 += n2_len - 1;
+*(r + size_r) = '\0';
+return (add_strings(n1, n2, r, --size_r));
 }
-if (r[i - 1] > 9)
-{
-	if (i + 1 >= size_r)
-		return (0);
-	carry_from_prev(r, i++);
-}
-r[i] ^= r[j];
-r[j] ^= r[i];
-r[i] ^= r[j];
-r[i] += '0';
-r[j] += '0';
-}
-if (j == i)
-	r[i] += '0';
-	return (r);
-	}
