@@ -17,6 +17,11 @@ struct dog
 {
 	char *name;
 	float age;
+	/**
+	 * @owner: the owner of the dog
+	 *
+	 * struct dog - a header fill that defines a new type
+	 */
 	char *owner;
 };
 
