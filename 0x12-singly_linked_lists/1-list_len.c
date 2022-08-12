@@ -6,13 +6,13 @@
  */
 size_t list_len(const lists_t *h)
 {
-	const list_t *ptr = h;
-	size_t t = 0;
+	size_t nelem;
 
-	while (ptr != NULL)
+	nelem = 0;
+	while (h != NULL)
 	{
-		ptr = ptr->next;
-		t++;
+		h = h->next;
+		nelem++;
 	}
-	return (t);
+	return (nelem);
 }
