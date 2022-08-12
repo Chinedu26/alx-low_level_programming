@@ -1,10 +1,10 @@
 #include "lists.h"
 /**
  * list_len - a function that returns the number of elements
- * @h: pointer
+ * @h: singly linked list.
  * Return: number of elements
  */
-size_t list_len(const lists_t *h)
+size_t list_len(const list_t *h)
 {
 	size_t nelem;
 
